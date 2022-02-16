@@ -44,15 +44,14 @@ app.delete("/repositories/:id", (request, response) => {
     repository.id===id
   );
 
-  if(findRepositoryIndex) {
-    const repositorieDelete = findRepositoryIndex.splice();
-
-    return response.json(repositorieDelete);
+  if(findRepositoryIndex >= 0) {
+    repositories.splice(findRepositoryIndex, 1);
+    return response.status(204).send();
   }
 
   return response.status(401).json({
     message: "Repository not found."
-  })
+  });
 
 });
 

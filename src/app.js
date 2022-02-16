@@ -50,8 +50,10 @@ app.put("/repositories/:id", (request, response) => {
     id,
     title,
     url,
-    techs
-  }
+    techs,
+    likes : repositories[findRepositoryIndex].likes
+  };
+
   repositories[findRepositoryIndex] = repository;
 
 
@@ -79,6 +81,21 @@ app.delete("/repositories/:id", (request, response) => {
 
 app.post("/repositories/:id/like", (request, response) => {
   // TODO
+  const { id } = request.params;
+  
+  const findRepositoryIndex = repositories.findIndex(repository => 
+    repository.id===id
+  );
+
+  if(findRepositoryIndex === -1) {
+    return response.status(400).json({
+      message: "Repository does not exists."
+    })
+  }
+
+  repositories[findRepositoryIndex].likes++; //vai acrescentar 1 like do repositório existente
+
+  return response.json(repositories[findRepositoryIndex])
 });
 
 module.exports = app;
